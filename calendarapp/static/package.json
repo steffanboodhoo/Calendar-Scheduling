@@ -1,0 +1,15 @@
+{
+  "name": "test1",
+  "version": "1.0.0",
+  "description": "this is to test a calendar library out",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "angular-material-calendar": "^0.2.14",
+    "fullcalendar": "^3.4.0"
+  }
+}
