@@ -64,7 +64,7 @@ var CALENDAR = (function(){
 		var day = $("<td>"), date;
 		
 		//PRE MONTH
-		if( cal_day < cal_date.START_DAY ){
+		if( cal_day < cal_date.START_DAY ){ //if the current calendar position is less than the first day of current month
 			date = cal_date.LAST_MONTH_DAYS - ( cal_date.START_DAY - cal_day - 1);
 			day.attr({"id":(this.date.month-1)+"_"+date})
 		//CURRENT MONTH OR FUTURE MONTH
@@ -80,8 +80,10 @@ var CALENDAR = (function(){
 		//if( cal_day < cal_date.START_DAY ) || cal_day >= (cal_date.MONTH_DAYS+cal_date.START_DAY) )
 			// return [day, count];
 		
-		
-		day.append(date)
+		var day_elem = '<md-whiteframe class="md-whiteframe-1dp" flex-sm="45" flex-gt-sm="35" flex-gt-md="25" layout layout-align="center center"> <span>.md-whiteframe-1dp</span> </md-whiteframe>';
+		//TODO change back to append(date);
+		// day.append(date)
+		day.append(day_elem)
 		day.on("click", this.elementClick);
 		day.on("mouseenter mouseexist", this.elementHover);
 
@@ -92,7 +94,14 @@ var CALENDAR = (function(){
 	}
 
 	CALENDAR.elementClick = function(){
-		console.log(this);
+		// console.log(this);
+		// console.log(CALENDAR.day_events)
+		// console.log(this.id);
+		var indicies = CALENDAR.day_events[this.id];
+
+		for( i in CALENDAR.day_events[this.id]){
+			console.log(CALENDAR.events_public[indicies[i]]);
+		}
 	}
 	CALENDAR.setElementClick = function( func ){
 		this.elementClick = func;
@@ -131,14 +140,24 @@ var CALENDAR = (function(){
 	//----------------------------------------------------------------------------------
 	CALENDAR.events_personal = [];
 	CALENDAR.events_public = [];
+	CALENDAR.day_events = {};
 	// CALENDAR.
 
 	CALENDAR.setPublicEvents = function(events){
+		//Set property
 		this.events_public = events;
-		for(ev in this.events_public){
 
+		//Display on calendar
+		for(ev_i in this.events_public){
+			var ev = this.events_public[ev_i]
+			var id = this.getDayId(ev.date);
+			if (this.day_events[id] === undefined )
+				this.day_events[id] = []
+			this.day_events[id].push(ev_i);//Stores a pointer to the location of the event
+			//Put it onto the calendar
 		}
 	}
+
 	CALENDAR.setPersonalEvents = function(events){
 		this.events_personal = events;
 	}
@@ -155,9 +174,15 @@ var CALENDAR = (function(){
 	}
 
 	CALENDAR.getDay = function(timestamp){
+		var id = getDayId(timestamp);
+		return [$("#"+id), id];
+	}
+
+	CALENDAR.getDayId = function(timestamp){
+		timestamp = Number(timestamp);
 		var date = new Date(timestamp * 1000);
-		[day, month] = [date.getDate(), date.getMonth()]
-		return $("#"+month+"_"+day);
+		[day, month] = [date.getDate(), date.getMonth()];
+		return month+"_"+day;
 	}
 
 	return CALENDAR;
