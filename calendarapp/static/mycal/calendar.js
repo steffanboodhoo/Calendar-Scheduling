@@ -81,7 +81,7 @@ var CALENDAR = (function(){
 		//if( cal_day < cal_date.START_DAY ) || cal_day >= (cal_date.MONTH_DAYS+cal_date.START_DAY) )
 			// return [day, count];
 		
-		day.append($("<div>",{"height":"80%"}).append('sample'));
+		day.append($("<div>",{"height":"80%"}));
 		day.append("<div class='day_text'>"+date+"</div>");
 
 		day.on("click", this.elementClick);
@@ -94,9 +94,9 @@ var CALENDAR = (function(){
 	}
 
 	CALENDAR.elementClick = function(){
-		// console.log(this);
+		console.log(this.firstElementChild);
 		// console.log(CALENDAR.day_events)
-		// console.log(this.id);
+		console.log(this.id);
 		var indicies = CALENDAR.day_events[this.id];
 
 		for( i in CALENDAR.day_events[this.id]){
@@ -156,6 +156,18 @@ var CALENDAR = (function(){
 			this.day_events[id].push(ev_i);//Stores a pointer to the location of the event
 			//Put it onto the calendar
 		}
+		for(id in this.day_events){
+			var elem = $("#"+id).find("div")[0], list = $('<ul>');
+			/*console.log(elem)
+			for(ev_i in this.day_events[id]){
+				console.log(ev_i);
+				list.append("<li>"+this.day_events[id][ev_i].title+"</li>")
+			}
+			console.log(list)
+			elem.append(list);*/
+			elem.append($("<p>").append("ee"))
+		}
+		console.log(this.day_events);
 	}
 
 	CALENDAR.setPersonalEvents = function(events){

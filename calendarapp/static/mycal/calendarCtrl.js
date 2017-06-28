@@ -16,14 +16,14 @@ angular.module("test")
 					,'date':'1496894184'
 					
 				}
-				,{
+				/*,{
 					'title':'Probability from each state to another'
 					,'date':'1494299025'
 				}
 				,{
 					'title':'Transition Matrix'
 					,'date':'1494831825'
-				}
+				}*/
 
 			];
 			
