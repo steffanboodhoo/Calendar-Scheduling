@@ -35,16 +35,17 @@ var CALENDAR = (function(){
 
 	CALENDAR.createBody = function(START_DAY, MONTH_DAYS){
 		//TABLE HEAD
-		var table = $("<table>"), row = $("<tr>");
+		var table = $("<div>"), row = $("<div>",{"class":"layout-row"});
 		for(var j=0; j<7; j++)
-			row.append("<td>"+abbrv(this.DAY_NAMES, j)+"</td>");
+			row.append("<div class='flex'>"+abbrv(this.DAY_NAMES, j)+"</div>")
+			// row.append("<td>"+abbrv(this.DAY_NAMES, j)+"</td>");
 		table.append(row);
 
 		//TABLE BODY
 		var count = 0, calendar = [];
 		for(var i = 0; i<6; i++){
 			calendar[i] = [];
-			row = $("<tr>");
+			row = $("<div>",{"class":"layout-row"});
 			
 			for(var j=0; j<7; j++){
 				// calendar[i][j] 
@@ -61,7 +62,7 @@ var CALENDAR = (function(){
 
 
 	CALENDAR.createDay = function(cal_day, count, cal_date){
-		var day = $("<td>"), date;
+		var day = $("<div>",{"class":"flex day "}), date;
 		
 		//PRE MONTH
 		if( cal_day < cal_date.START_DAY ){ //if the current calendar position is less than the first day of current month
@@ -80,10 +81,9 @@ var CALENDAR = (function(){
 		//if( cal_day < cal_date.START_DAY ) || cal_day >= (cal_date.MONTH_DAYS+cal_date.START_DAY) )
 			// return [day, count];
 		
-		var day_elem = '<md-whiteframe class="md-whiteframe-1dp" flex-sm="45" flex-gt-sm="35" flex-gt-md="25" layout layout-align="center center"> <span>.md-whiteframe-1dp</span> </md-whiteframe>';
-		//TODO change back to append(date);
-		// day.append(date)
-		day.append(day_elem)
+		day.append($("<div>",{"height":"80%"}).append('sample'));
+		day.append("<div class='day_text'>"+date+"</div>");
+
 		day.on("click", this.elementClick);
 		day.on("mouseenter mouseexist", this.elementHover);
 
