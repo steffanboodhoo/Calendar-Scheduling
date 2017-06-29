@@ -10,17 +10,19 @@ var CALENDAR = (function(){
 
 
 
-	CALENDAR.init = function(id, cal_date){
+	CALENDAR.init = function(id, cal_date, $rootScope){
+		this.$rootScope = $rootScope;
 		//CALENDAR VARIABLES
 		cal_date.START_DAY = getStartDay( cal_date.month, cal_date.year );
 		cal_date.MONTH_DAYS = getMonthDays( cal_date.month, cal_date.year );
 		cal_date.LAST_MONTH_DAYS = getMonthDays( cal_date.month-1, cal_date.year );
+		$(id).append("<div id='cal-month'></div>");
+		$(id).append("<div id='cal-day'></div>");
 
-		$(id).append("<div id='cal-head'></div>");
+		//Month
+		// $("#cal-month").append("<div id='cal-head'></div>");
 		$("#cal-head").append("<div id='cal-title'> <h3>"+this.MONTH_NAMES[this.date.month]+"</h3> </div>");
-
-		$(id).append("<div id='cal-body'></div>");
-		
+		$("#cal-month").append("<div id='cal-body'></div>");
 		this.createBody(cal_date);
 		console.log("end of running");
 	}
@@ -53,16 +55,16 @@ var CALENDAR = (function(){
 				var [elem, count] = this.createDay(cal_day, count, this.date);
 				row.append(elem);
 			}
-			// console.log("moo");
 			table.append(row);
 		}
 		$("#cal-body").append(table)
+		// this.$rootScope.$apply();
 	}
 
 
 
 	CALENDAR.createDay = function(cal_day, count, cal_date){
-		var day = $("<div>",{"class":"flex day "}), date;
+		var day = $("<div>",{"class":"flex day "}), date, id;
 		
 		//PRE MONTH
 		if( cal_day < cal_date.START_DAY ){ //if the current calendar position is less than the first day of current month
@@ -73,16 +75,20 @@ var CALENDAR = (function(){
 			count++;	
 			date = count;
 			if( cal_day >= (cal_date.MONTH_DAYS+cal_date.START_DAY)) //NEXT MONTH
-				day.attr({"id":(this.date.month+1)+"_"+date})
+				id = (this.date.month+1)+"_"+date
+				// day.attr({"id":(this.date.month+1)+"_"+date})
 			else
-				day.attr({"id":(this.date.month)+"_"+date})			//CURRENT MONTH
+				id = (this.date.month)+"_"+date
+				// day.attr({"id":(this.date.month)+"_"+date})			//CURRENT MONTH
+			day.attr({"id":id})
 		}
 
 		//if( cal_day < cal_date.START_DAY ) || cal_day >= (cal_date.MONTH_DAYS+cal_date.START_DAY) )
 			// return [day, count];
 		
-		day.append($("<div>",{"height":"80%"}));
+		day.append($("<div>",{"id":id+"_list","class":"month_event_list"}));
 		day.append("<div class='day_text'>"+date+"</div>");
+		day.append($("<md-tooltip>",{"md-direction":'Bottom'}).append("test"));
 
 		day.on("click", this.elementClick);
 		day.on("mouseenter mouseexist", this.elementHover);
@@ -94,14 +100,11 @@ var CALENDAR = (function(){
 	}
 
 	CALENDAR.elementClick = function(){
-		console.log(this.firstElementChild);
-		// console.log(CALENDAR.day_events)
-		console.log(this.id);
 		var indicies = CALENDAR.day_events[this.id];
 
-		for( i in CALENDAR.day_events[this.id]){
+		/*for( i in CALENDAR.day_events[this.id]){
 			console.log(CALENDAR.events_public[indicies[i]]);
-		}
+		}*/
 	}
 	CALENDAR.setElementClick = function( func ){
 		this.elementClick = func;
@@ -156,18 +159,16 @@ var CALENDAR = (function(){
 			this.day_events[id].push(ev_i);//Stores a pointer to the location of the event
 			//Put it onto the calendar
 		}
+
 		for(id in this.day_events){
-			var elem = $("#"+id).find("div")[0], list = $('<ul>');
-			/*console.log(elem)
+			var elem = $("#"+id+"_list"), list = $('<ul>');
+			
 			for(ev_i in this.day_events[id]){
-				console.log(ev_i);
-				list.append("<li>"+this.day_events[id][ev_i].title+"</li>")
+				var index = this.day_events[id][ev_i];
+				list.append("<li class='month_view_event'> "+this.events_public[index].title+" </li>")
 			}
-			console.log(list)
-			elem.append(list);*/
-			elem.append($("<p>").append("ee"))
+			elem.append(list);
 		}
-		console.log(this.day_events);
 	}
 
 	CALENDAR.setPersonalEvents = function(events){

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html ng-app="test">
 	<head>
-		<link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/angular_material/1.1.0-rc2/angular-material.min.css">
+		<!-- <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/angular_material/1.1.0-rc2/angular-material.min.css"> -->
 		<link rel="stylesheet" href="static/node_modules/angular-material/angular-material.min.css">
 		<!-- <link rel='stylesheet' href='static/node_modules/fullcalendar/dist/fullcalendar.css' /> -->
 		<link rel="stylesheet" href="static/main/main.css">
@@ -13,11 +13,27 @@
 		<div id="calendar" ng-controller="calendarCtrl"></div>
 		
 
-		<md-button> poof </md-button>
-		<div layout="row">
-			<div flex></div>
-			<div flex></div>
-			<div flex></div>
+		
+		<div id='test'>
+			<md-button id='test_btn'> poof   {{name}} </md-button>
+
+			<!-- <div ng-cloak>
+			  <md-content>
+			    <md-tabs md-dynamic-height md-border-bottom>
+			      <md-tab label="one">
+			        <md-content class="md-padding">
+			          <h1 class="md-display-2">Tab One</h1>
+			        </md-content>
+			      </md-tab>
+			      <md-tab label="two">
+			        <md-content class="md-padding">
+			          <h1 class="md-display-2">Tab Two</h1>
+			        </md-content>
+			      </md-tab>
+			    </md-tabs>
+			  </md-content>
+			</div> -->
+
 		</div>
 	</body>
 	
